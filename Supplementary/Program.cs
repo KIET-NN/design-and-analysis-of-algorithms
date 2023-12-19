@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Runtime.Remoting.Messaging;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +30,11 @@ namespace Supplementary
             //}
             //obj.GeneratePrimes(100);
             //obj.GeneratePrimeSeries(40);
-            obj.SumOfPositives(5);
+            //obj.SumOfPositives(5);
+            //int[,] multiplicationTables = obj.MultiplicationTables(2, 6, 5);
+            //Console.WriteLine(obj.LeastCommonMultiple());
+            //obj.QuibbleSort("923453174270".ToCharArray());
+            obj.QuibbleSort("3D4431DBA69".ToCharArray());
             Console.ReadKey();
         }
 
@@ -191,7 +197,7 @@ namespace Supplementary
             }
             int sum = 0;
             int positives = 0;
-            foreach (int i in array)
+            foreach(int i in array)
             {
                 if (i > 0)
                 {
@@ -201,6 +207,118 @@ namespace Supplementary
             }
             float average = sum / positives;
             Console.WriteLine(average);
+        }
+
+        int[,] MultiplicationTables(int start, int end, int range)
+        {
+            int j = 0;
+            int[,] table = new int[end-start + 1, range];
+            while (start <= end)
+            {
+                for (int i = 1; i <= range; i++)
+                {
+                    table[j, i - 1] = start * i;
+                }
+                start++;
+                j++;
+            }
+            return table;
+        }
+        
+        int LeastCommonMultiple()
+        {
+            Console.WriteLine($"Input the numbers to find out LCM: ");
+            int num1 = Int16.Parse(Console.ReadLine());
+            int num2 = Int16.Parse(Console.ReadLine());
+            int gcd = 0;
+            int a = num1, b = num2;
+            int steps = 0;
+            if (num1 > num2)
+            {
+                a = num2;
+                b = num1;
+            }
+            while (b % a != 0)
+            {
+                gcd = a;
+                a = b % a;
+                b = gcd;
+                steps++;
+            }
+            Console.WriteLine("Steps: " + steps);
+            int lcm = (num1 * num2) / gcd;
+            return lcm;
+        }
+
+        char[] OneStepBubbleSort(char[] data, int numBase)
+        {
+            for (int j = 1; j < data.Length - 1; j += 2)
+            {
+                int num1 = Convert.ToInt32(data[j].ToString(), numBase);
+                int num2 = Convert.ToInt32(data[j - 1].ToString(), numBase);
+                if (num2 > num1)
+                {
+                    char temp = data[j];
+                    data[j] = data[j - 1];
+                    data[j - 1] = temp;
+                }
+            }
+            return data;
+        }
+
+        char[] QuibbleSort(char[] data)
+        {
+            if (data.Length <= 1)
+            {
+                return data;
+            }
+            foreach (char c in data)
+            {
+                Console.Write(c + " ");
+            }
+            Console.WriteLine("Executing Bubble sort");
+            // Single step Bubble sort
+            data = OneStepBubbleSort(data, 16);
+            foreach (char c in data)
+            {
+                Console.Write(c + " ");
+            }
+            Console.WriteLine();
+            char pivot = data[0];
+            int i = 1;
+            int j = data.Length - 1;
+            while (i < j)
+            {
+                while (i < data.Length && data[i] < pivot)
+                { i++; }
+                while (j >= i && data[j] >= pivot)
+                { j--; }
+                // Swap elements at indices i and j
+                Console.WriteLine($"Swapping i: {data[i]} and j: {data[j]}");
+                if (j > i)
+                {
+                    char temp = data[i];
+                    data[i] = data[j];
+                    data[j] = temp;
+                }
+            }
+            // Swap the pivot element with the element at index j
+            data[0] = data[j];
+            data[j] = pivot;
+            // Recursively sort the two partitions
+            char[] left = QuibbleSort(data.Take(j).ToArray());
+            char[] mid = new char[] { data[j] };
+            char[] right = QuibbleSort(data.Skip(j + 1).ToArray());
+            // Merge the left, mid and right partitions
+            string leftStr = "";
+            string rightStr = "";
+            string midStr = mid[0].ToString();
+            foreach (char l in left)
+                leftStr += l.ToString() + ' ';
+            foreach (char l in right)
+                rightStr += l.ToString() + ' ';
+            Console.WriteLine($"Merging [{leftStr}], [{midStr}], and [{rightStr}]");
+            return left.Concat(mid).Concat(right).ToArray();
         }
     }
 }
