@@ -27,12 +27,24 @@ namespace workspace
             //DemoMatrixMultiplication();
 
             /* Demonstrate Map-Reduce mock */
-            DemoMapReduce();
+            //DemoMapReduce();
+
+            /* Demonstrate Merge Sort */
+            //DemoMergeSort();
+
+            /* Demonstrate Quick Sort */
+            //DemoQuickSort();
+
+            /* Demonstrate N-queen solution */
+            //DemoNQueen();
+
+            /* Demonstrate Fibonacci using Dynamic programming */
+            DemoDynamicProgramming();
 
             Console.ReadKey();
         }
 
-        private static void DemoMatrixMultiplication()
+        static void DemoMatrixMultiplication()
         {
             int[,] A = { { 9, 6 }, { 2, 2 } };
             int[,] B = { { 5, 4 }, { 0, 4 } };
@@ -52,7 +64,7 @@ namespace workspace
             }
         }
 
-        private static void DemoStringMatching()
+        static void DemoStringMatching()
         {
             string target =
                             "GTACCGGTAATCTAGGCTAGTTGCGCATGACCTTACGGTACCTGAGTAGCGGTTTGGACCGATAGTGTAGCTTAGCGGACGCTGCTACGTATAGCGGATA" +
@@ -131,7 +143,7 @@ namespace workspace
             return C;
         }
 
-        private static void DemoPasswordCracking()
+        static void DemoPasswordCracking()
         {
             int n = 5;
             char[] charset = "abcdefghijklmnopqrstuvwxyz0123456789".ToCharArray();
@@ -141,7 +153,7 @@ namespace workspace
             Console.ReadKey();
         }
 
-        private static long CalculateCombinations(int n, int r)
+        static long CalculateCombinations(int n, int r)
         {
             if (r < 0 || r > n)
             {
@@ -157,7 +169,7 @@ namespace workspace
             return result;
         }
 
-        private static char[] GenerateStrings(char[] characters, int length, char[] result, int currentIndex)
+        static char[] GenerateStrings(char[] characters, int length, char[] result, int currentIndex)
         {
             if (currentIndex == length)
             {
@@ -173,7 +185,7 @@ namespace workspace
             return null;
         }
 
-        private static void DemoMapReduce()
+        static void DemoMapReduce()
         {
             String[] filePaths = Directory.GetFiles("../../LOTR", "*.txt");
             var mapOutput = new ConcurrentBag<ConcurrentDictionary<string, int>>();
@@ -188,7 +200,7 @@ namespace workspace
             }
         }
 
-        private static void MapFiles(string[] filePaths, ConcurrentBag<ConcurrentDictionary<string, int>> mapOutput)
+        static void MapFiles(string[] filePaths, ConcurrentBag<ConcurrentDictionary<string, int>> mapOutput)
         {
             Parallel.ForEach(filePaths, filePath =>
             {
@@ -226,5 +238,184 @@ namespace workspace
             return combinedWordFrequencies;
         }
 
+        static void DemoMergeSort()
+        {
+            int[] array = { 994, 1949, 1422, 1475, 870, 1729, 1954, 2363, 1965, 1952, 1696, 0873, 1413, 1969, 1717 };
+            int[] sorted = MergeSort(array, 0, array.Length - 1);
+            foreach (int i in sorted)
+            {
+                Console.Write(i + "\t");
+            }
+        }
+
+        static int[] MergeSort(int[] array, int start, int end)
+        {
+            if (start < end)
+            {
+                int mid = (end + start) / 2;
+                int[] left = MergeSort(array, start, mid);
+                int[] right = MergeSort(array, mid + 1, end);
+                return Merge(left, right);
+            }
+            return new int[] { array[start] };
+        }
+
+        static int[] Merge(int[] left, int[] right)
+        {
+            int[] merged = new int[left.Length + right.Length];
+            int i = 0, l = 0, r = 0;
+            // Run for the items which match in length
+            while (l < left.Length && r < right.Length)
+            {
+                if (left[l] < right[r])
+                {
+                    merged[i] = left[l++];
+                }
+                else
+                {
+                    merged[i] = right[r++];
+                }
+                i++;
+            }
+            // Copy remaining items from left
+            while (l < left.Length)
+            {
+                merged[i++] = left[l++];
+            }
+            // Copy remaining items from right
+            while (r < right.Length)
+            {
+                merged[i++] = right[r++];
+            }
+            return merged;
+        }
+
+        static void DemoQuickSort()
+        {
+            //int[] array = { 994, 1949, 1422, 1475, 870, 1729, 1954, 2363, 1965, 1952, 1696, 0873, 1413, 1969, 1717 };
+            int[] array = { 9, 8, 6, 10, 1, 6, 15, 2, 13, 14 };
+
+            int[] sorted = Quicksort(array);
+            foreach (int i in sorted)
+            {
+                Console.Write(i + "\t");
+            }
+        }
+
+        static int[] Quicksort(int[] array)
+        {
+            if (array.Length <= 1)
+            {
+                return array;
+            }
+            int pivot = array[0];
+            int i = 1;
+            int j = array.Length - 1;
+            while (i < j)
+            {
+                while (i < array.Length && array[i] < pivot)
+                { i++; }
+                while (array[j] > pivot)
+                { j--; }
+                // Swap elements at indices i and j
+                if (j > i)
+                {
+                    int temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                }
+            }
+            // Swap the pivot element with the element at index j
+            array[0] = array[j];
+            array[j] = pivot;
+            // Recursively sort the two partitions
+            int[] left = Quicksort(array.Take(j).ToArray());
+            int[] mid = new int[] { array[j] };
+            int[] right = Quicksort(array.Skip(j + 1).ToArray());
+            // Merge the left, mid and right partitions
+            string leftStr = "";
+            string rightStr = "";
+            string midStr = mid[0].ToString();
+            foreach (int l in left)
+                leftStr += l.ToString() + ' ';
+            foreach (int l in right)
+                rightStr += l.ToString() + ' ';
+            Console.WriteLine($"Merging [{leftStr}], [{midStr}], and [{rightStr}]");
+            return left.Concat(mid).Concat(right).ToArray();
+        }
+
+        static void DemoNQueen()
+        {
+            int n = 8;
+            int[,] positions = new int[n, n];
+            positions = NQueens(n, 1, positions);
+        }
+
+        static int[,] NQueens(int n, int current, int[,] positions)
+        {
+            // Termination condition. All queens have been placed
+            if (current == n) return positions;
+            // See if any queens are attacking each other
+            int i = 0;
+            while (i < n)
+            {
+                positions[current - 1, i] = 1;
+                if (IsAttacking(positions))
+                {
+                    positions[current - 1, i] = 0;
+                    i++;
+                }
+            }
+            // Recursive step
+            return NQueens(n, current + 1, positions);
+        }
+
+        static bool IsAttacking(int[,] positions)
+        {
+            int horizontalSum = 0;
+            int verticalSum = 0;
+            for (int i = 0; i < positions.Length; i++)
+            {
+                for (int j = 0; j < positions.Length; j++)
+                {
+                    horizontalSum += positions[j, i];
+                    verticalSum += positions[i, j];
+                }
+            }
+            if (verticalSum > 1 || horizontalSum > 1)
+            {
+                return true;
+            }
+            return false;
+        }
+    
+        static void DemoDynamicProgramming()
+        {
+            Console.WriteLine("Simple recursive implementation:");
+            for (int i = 1; i < 40; i++)
+            {
+                Console.Write(Fibonacci(i) + " ");
+            }
+            Console.WriteLine("\nDynamic programming implementation:");
+            for (int i = 1; i < 40; i++)
+            {
+                Console.Write(FibonacciDynamicProgramming(i, new int[i]) + " ");
+            }
+        }
+
+        static int Fibonacci(int n)
+        {
+            if (n <= 2) return 1;
+            return Fibonacci(n - 1) + Fibonacci(n - 2);
+        }
+
+        static int FibonacciDynamicProgramming(int n, int[] cache)
+        {
+            if (n <= 2) return 1;
+            if (cache[n - 1] > 0) return cache[n - 1];
+            int fib = FibonacciDynamicProgramming(n - 1, cache) + FibonacciDynamicProgramming(n - 2, cache);
+            cache[n - 1] = fib;
+            return fib;
+        }
     }
 }

@@ -33,8 +33,8 @@ namespace Supplementary
             //obj.SumOfPositives(5);
             //int[,] multiplicationTables = obj.MultiplicationTables(2, 6, 5);
             //Console.WriteLine(obj.LeastCommonMultiple());
-            //obj.QuibbleSort("923453174270".ToCharArray());
-            obj.QuibbleSort("3D4431DBA69".ToCharArray());
+            //obj.QuibbleSort("30505A63E11".ToCharArray());
+            obj.GeneratePrimeSeries(40);
             Console.ReadKey();
         }
 

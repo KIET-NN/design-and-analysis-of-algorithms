@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huffman Coding", "Huffman C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supplementary", "Supplementary\Supplementary.csproj", "{565E449F-2BA6-425C-B09F-5FA19679CF6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karachi Bus Routes", "Karachi Bus Routes\Karachi Bus Routes.csproj", "{AA82B717-66A5-47C1-B0E9-BDD719FF0ECE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{565E449F-2BA6-425C-B09F-5FA19679CF6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{565E449F-2BA6-425C-B09F-5FA19679CF6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{565E449F-2BA6-425C-B09F-5FA19679CF6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA82B717-66A5-47C1-B0E9-BDD719FF0ECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA82B717-66A5-47C1-B0E9-BDD719FF0ECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA82B717-66A5-47C1-B0E9-BDD719FF0ECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA82B717-66A5-47C1-B0E9-BDD719FF0ECE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
